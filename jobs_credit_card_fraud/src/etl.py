@@ -144,8 +144,10 @@ class ETL(nbox.Operator):
     # is going to work
 
     # define the different operations
-    self.download = ShellCommand(f"wget -q {self.dataset_url} -O raw.csv.zip")
-    self.unzip = ShellCommand("unzip raw.csv.zip") # note that this will write "creditcard.csv"
+    self.download = ShellCommand(
+      f"wget -q {self.dataset_url} -O raw.csv.zip",
+      "unzip raw.csv.zip"
+    )
     self.preprocess = Preprocessing()
     self.sampling = SamplingStrategy(
       strategy = sampling_strategy,
@@ -165,7 +167,6 @@ class ETL(nbox.Operator):
 
   def forward(self):
     self.download() # first step is to download the dataset
-    self.unzip() # unzip the files
     df = pd.read_csv("creditcard.csv") # read CSV
     self.describe(df) # print the status
 
