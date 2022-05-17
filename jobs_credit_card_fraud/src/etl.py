@@ -173,7 +173,7 @@ class ETL(nbox.Operator):
     df = self.preprocess(df)
     self.describe(df) # print the status
 
-    # split the data into test and train
+    # split the data into X and y
     X, y = self.sampling(df)
 
     return X, y
