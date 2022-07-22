@@ -10,7 +10,7 @@ os.environ["NBOX_LOG_LEVEL"] = "INFO" # Keep it the way you like
 from nbox import Operator
 from nbox.hyperloop.job_pb2 import Resource
 
-from nbox.lib.shell import Python
+from nbox.lib.shell import PythonScript
 
 
 def _get_file(self, *fp):
@@ -23,11 +23,11 @@ class FaissTests(Operator):
   def __init__(self) -> None:
     super().__init__()
 
-    self.test_1_flat = Python(_get_file('tests', '1-Flat.py'))
-    self.test_2_ivfflat = Python(_get_file('tests', '2-IVFFlat.py'))
-    self.test_3_ivfpq = Python(_get_file('tests', '3-IVFPQ.py'))
-    self.test_4_gpu = Python(_get_file('tests', '4-GPU.py'))
-    self.test_5_multiple_gpu = Python(_get_file('tests', '5-Multiple-GPU.py'))
+    self.test_1_flat = PythonScript(_get_file('tests', '1-Flat.py'))
+    self.test_2_ivfflat = PythonScript(_get_file('tests', '2-IVFFlat.py'))
+    self.test_3_ivfpq = PythonScript(_get_file('tests', '3-IVFPQ.py'))
+    self.test_4_gpu = PythonScript(_get_file('tests', '4-GPU.py'))
+    self.test_5_multiple_gpu = PythonScript(_get_file('tests', '5-Multiple-GPU.py'))
 
   def forward(self):
     self.test_1_flat()
@@ -44,11 +44,11 @@ from nbox.lib.arch import StepOp
 class FaissTestVeteran(StepOp):
   def __init__(self):
     super().__init__()
-    self.add_step(Python(_get_file('tests', '1-Flat.py')))
-    self.add_step(Python(_get_file('tests', '2-IVFFlat.py')))
-    self.add_step(Python(_get_file('tests', '3-IVFPQ.py')))
-    self.add_step(Python(_get_file('tests', '4-GPU.py')))
-    self.add_step(Python(_get_file('tests', '5-Multiple-GPU.py')))
+    self.add_step(PythonScript(_get_file('tests', '1-Flat.py')))
+    self.add_step(PythonScript(_get_file('tests', '2-IVFFlat.py')))
+    self.add_step(PythonScript(_get_file('tests', '3-IVFPQ.py')))
+    self.add_step(PythonScript(_get_file('tests', '4-GPU.py')))
+    self.add_step(PythonScript(_get_file('tests', '5-Multiple-GPU.py')))
 
 
 def get_op() -> Operator:
@@ -64,4 +64,5 @@ def get_resource() -> Resource:
     disk_size = "1Gi",    # GiB
     gpu = "nvidia-tesla-k80", # nvidia-tesla-k80
     gpu_count = "1",       # 1 GPU
+    max_retries = 2,     # 2 retries
   )

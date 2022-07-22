@@ -5,7 +5,7 @@
 
 import os
 
-os.environ["NBOX_LOG_LEVEL"] = "INFO" # Keep it the way you like
+os.environ["NBOX_LOG_LEVEL"] = "DEBUG" # Keep it the way you like
 
 from nbox import Operator
 from nbox.hyperloop.job_pb2 import Resource
@@ -105,6 +105,6 @@ def get_resource() -> Resource:
   """Define your pod config here"""
   return Resource(
     cpu = "100m",         # 100mCPU
-    memory = "200Mi",     # MiB
+    memory = "100Mi",     # MiB
     disk_size = "1Gi",    # GiB
   )
