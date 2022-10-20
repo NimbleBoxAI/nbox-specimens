@@ -1,0 +1,20 @@
+# This is where you list the third-party dependencies of your pipeline
+
+# Examples:
+# pandas
+
+# always be on lookout for optimisations, ex:
+# save 85% download if using CPU torch add `-f https://download.pytorch.org/whl/torch_stable.html`
+
+nbox[serving]==0.9.28 # do not change this
+dainik # this is NBX-LMAO client -> in next version of this job it will be inside nbox itself
+numpy
+tqdm
+newspaper3k
+
+# I don't really have a pypi repo for gperc right now, so I am just doing a git install
+git+https://github.com/yashbonde/general-perceivers
+
+-f https://download.pytorch.org/whl/torch_stable.html
+torch==1.9.0
+torchvision==0.10.0

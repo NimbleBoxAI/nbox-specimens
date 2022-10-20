@@ -1,4 +1,4 @@
-# Credit Card Detection Model using NBX-Jobs
+# Credit Card Detection Model using NBX-Jobs [Deprecated]
 
 Training an Sklearn model using NBX-Jobs.
 

@@ -1,4 +1,4 @@
-# 🔋 'jobs_gpu_faiss' on NimbleBox
+# 🔋 'jobs_gpu_faiss' on NimbleBox [Deprecated]
 
 How to run a GPU process using NBX-Jobs.
 

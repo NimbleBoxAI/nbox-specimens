@@ -1,4 +1,4 @@
-# Job that deploys itself?
+# Job that deploys itself? [Deprecated]
 
 <img src="https://i.pinimg.com/736x/fd/02/fa/fd02fab1cf5ed6093717e2f4713769a4.jpg">
 
