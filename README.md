@@ -8,6 +8,8 @@ This repository contains follow along material and examples of using [`nbox`](ht
 
 The projects here are used to demonstrate how to run different kinds of workloads and not the content of the operation.
 
+- [**Deploy**] 
+
 ### Deprecated Examples
 
 These examples will be migrated to the new format for deploying batch processes (serverless) and API endpoints.

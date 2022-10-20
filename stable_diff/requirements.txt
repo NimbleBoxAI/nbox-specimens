@@ -1,0 +1,4 @@
+nbox[serving]==0.10.6
+transformers==4.18.0
+diffusers==0.3.0
+torch
