@@ -1,0 +1,5 @@
+nbox[serving]==0.10.6rc10
+numpy==1.22.3
+pandas==1.4.2
+-f https://download.pytorch.org/whl/torch_stable.html
+torch==1.11.0+cpu

@@ -1,4 +1,4 @@
-nbox==0.9.9
+nbox[serving]==0.10.6
 scikit-learn==1.0.2
 numpy==1.22.3
 matplotlib==3.5.1
