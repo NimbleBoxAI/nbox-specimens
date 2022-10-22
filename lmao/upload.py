@@ -15,4 +15,6 @@ if __name__ == "__main__":
     "label": labels
   }).to_csv("data.csv", index = False)
 
-  RelicsNBX("nbx_core").put_to("data.csv", f"datasets/data_1000_5.csv")
+  RelicsNBX("nbx_core", create = True).put_to(
+    "data.csv", f"datasets/data_1000_5.csv"
+  )

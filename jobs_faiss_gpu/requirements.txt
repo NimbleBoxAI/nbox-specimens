@@ -1,3 +1,3 @@
-nbox==0.9.9
+nbox[serving]==0.10.6
 faiss-gpu==1.7.2
 numpy
