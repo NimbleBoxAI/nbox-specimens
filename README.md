@@ -2,7 +2,14 @@
 
 # nbox-specimens
 
-This repository contains follow along material and examples of using [`nbox`](https://github.com/NimbleBoxAI/nbox).
+This repository contains follow along material and examples of using [`nbox`](https://github.com/NimbleBoxAI/nbox). In case you do not have `nbox` installed:
+
+```bash
+pip install nbox
+
+# call on CLI once to authenticate
+nbx why
+```
 
 ## 🌳 Projects
 
