@@ -17,7 +17,7 @@ print("Testing predict_rest")
 for _ in range(n):
   st = time.time()
   r = requests.post(
-    "https://api.nimblebox.ai/cdlmonrl//method_predict_rest",
+    "https://api.nimblebox.ai/<serving_id>/rest_predict",
     headers = {"NBX-KEY": "<token>"},
     json = {
       "image_array": np.array(img).tolist()
@@ -38,7 +38,7 @@ print("Testing predict_b64")
 for _ in range(n):
   st = time.time()
   r = requests.post(
-    "https://api.nimblebox.ai/cdlmonrl//method_predict_b64_rest",
+    "https://api.nimblebox.ai/<serving_id>/rest_predict_b64",
     headers = {"NBX-KEY": "<token>"},
     json = {
       "image_b64": b64encode(img.tobytes()).decode("utf-8"),
@@ -59,7 +59,7 @@ print("Testing predict_url")
 for _ in range(n):
   st = time.time()
   r = requests.post(
-    "https://api.nimblebox.ai/cdlmonrl//method_predict_url_rest",
+    "https://api.nimblebox.ai/ag67bguk/3xf5eed1/rest_predict_url",
     headers = {"NBX-KEY": "<token>"},
     json = {
       "url": "https://i0.wp.com/post.healthline.com/wp-content/uploads/2020/01/Runner-training-on-running-track-1296x728-header-1296x728.jpg?w=1155&h=1528"
