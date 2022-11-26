@@ -132,3 +132,4 @@ exe.py
 job_proto.msg
 .nbx_core/
 nbx_user.py
+.DS_Store
