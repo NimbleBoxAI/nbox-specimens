@@ -17,7 +17,6 @@ from diffusers import AutoencoderKL, UNet2DConditionModel, DDPMScheduler, Stable
 
 
 def main(
-  name: str = "nbx_dreambooth",
   pretrained_model_name_or_path = "CompVis/stable-diffusion-v1-4",
   tokenizer_name = None, 
   logging_dir = 'logs',
@@ -34,9 +33,9 @@ def main(
   adam_beta2 = 0.999,
   adam_weight_decay = 1e-2,
   adam_epsilon = 1e-08, 
-  size = 512, 
+  size = 512,
   center_crop = False,
-  max_train_steps = 2500,
+  max_train_steps = 5,
   num_train_epochs = None, 
   lr_scheduler_type = 'constant',
   lr_warmup_steps = 0,
@@ -45,10 +44,9 @@ def main(
 ):
   start = time.time()
 
-  instance_data_root = f'/home/vignesh.sbaskaran/data/Vatsal_training_images/{name}',
-  output_dir = f'outputs/{name}-v2',
+  instance_data_root = f'./sample_pics',
+  output_dir = f'./outputs/',
 
-  name = 'nbx_dreambooth_trainer'
   config = {
     'pretrained_model_name_or_path': pretrained_model_name_or_path,
     'tokenizer_name': tokenizer_name,
@@ -132,7 +130,7 @@ def main(
 
   # Step 8: Define dataset and dataloader
   train_dataset = DreamBoothDataset(
-    instance_data_root=instance_data_root,
+    instance_data_root=instance_data_root[0],
     instance_prompt=instance_prompt,
     tokenizer=tokenizer,
     size=size,
@@ -242,66 +240,66 @@ def main(
   progress_bar.set_description("Steps")
   global_step = 0
 
-  # for epoch in range(num_train_epochs):
-  #   unet.train()
-  #   if train_text_encoder:
-  #     text_encoder.train()
-  #   for step, batch in enumerate(train_dataloader):
-  #     with accelerator.accumulate(unet):
-  #       # Step 17a: Convert images to latent space
-  #       # Input: batch['pixel_values'] shape: torch.Size([1, 3, 512, 512])
-  #       # Output: latents -> AutoencoderKLOutput(latent_dist=)
-  #       latents = vae.encode(batch['pixel_values'].to(dtype=weight_dtype))
-  #       # Output: latents shape: torch.Size([1, 4, 64, 64])
-  #       latents = latents.latent_dist.sample()
-  #       latents = latents * 0.18215
-  #       # Step 17b: Sample noise that we will add to the latents
-  #       # Output: noise shape: torch.Size([1, 4, 64, 64])
-  #       noise = torch.randn_like(latents)
-  #       bsz = latents.shape[0]
-  #       # Step 17c: Sample a random timestep for each image
-  #       timesteps = torch.randint(0, noise_scheduler.config.num_train_timesteps, (bsz,), device=latents.device)
-  #       timesteps = timesteps.long()
-  #       # Step 17d: Forward Diffusion: Add noise to the latents according to the noise magnitude at each timestep
-  #       noisy_latents = noise_scheduler.add_noise(latents, noise, timesteps)
-  #       # Step 17e: Get the text embedding for conditioning
-  #       encoder_hidden_states = text_encoder(batch['input_ids']).last_hidden_state
-  #       # Step 17f: Predict the noise residual
-  #       noise_pred = unet(noisy_latents, timesteps, encoder_hidden_states).sample
-  #       # Step 17g: Compute loss
-  #       if with_prior_preservation:
-  #           pass
-  #       else:
-  #           loss = F.mse_loss(noise_pred.float(), noise.float(), reduction="mean")
-  #       # Step 17h: Run backpropagation
-  #       accelerator.backward(loss)
-  #       if accelerator.sync_gradients:
-  #           params_to_clip = (
-  #               itertools.chain(unet.parameters(), text_encoder.parameters()) if train_text_encoder
-  #               else unet.parameters()
-  #           )
-  #           accelerator.clip_grad_norm_(params_to_clip, max_grad_norm)
-  #       optimizer.step()
-  #       lr_scheduler.step()
-  #       optimizer.zero_grad()
-  #     if accelerator.sync_gradients:
-  #         progress_bar.update(1)
-  #         global_step += 1
-  #     logs = {"loss": loss.detach().item(), "lr": lr_scheduler.get_last_lr()[0]}
-  #     progress_bar.set_postfix(**logs)
-  #     accelerator.log(logs, step=global_step)
-  #     if global_step >= max_train_steps:
-  #         break
+  for epoch in range(num_train_epochs):
+    unet.train()
+    if train_text_encoder:
+      text_encoder.train()
+    for step, batch in enumerate(train_dataloader):
+      with accelerator.accumulate(unet):
+        # Step 17a: Convert images to latent space
+        # Input: batch['pixel_values'] shape: torch.Size([1, 3, 512, 512])
+        # Output: latents -> AutoencoderKLOutput(latent_dist=)
+        latents = vae.encode(batch['pixel_values'].to(dtype=weight_dtype))
+        # Output: latents shape: torch.Size([1, 4, 64, 64])
+        latents = latents.latent_dist.sample()
+        latents = latents * 0.18215
+        # Step 17b: Sample noise that we will add to the latents
+        # Output: noise shape: torch.Size([1, 4, 64, 64])
+        noise = torch.randn_like(latents)
+        bsz = latents.shape[0]
+        # Step 17c: Sample a random timestep for each image
+        timesteps = torch.randint(0, noise_scheduler.config.num_train_timesteps, (bsz,), device=latents.device)
+        timesteps = timesteps.long()
+        # Step 17d: Forward Diffusion: Add noise to the latents according to the noise magnitude at each timestep
+        noisy_latents = noise_scheduler.add_noise(latents, noise, timesteps)
+        # Step 17e: Get the text embedding for conditioning
+        encoder_hidden_states = text_encoder(batch['input_ids']).last_hidden_state
+        # Step 17f: Predict the noise residual
+        noise_pred = unet(noisy_latents, timesteps, encoder_hidden_states).sample
+        # Step 17g: Compute loss
+        if with_prior_preservation:
+            pass
+        else:
+            loss = F.mse_loss(noise_pred.float(), noise.float(), reduction="mean")
+        # Step 17h: Run backpropagation
+        accelerator.backward(loss)
+        if accelerator.sync_gradients:
+            params_to_clip = (
+                itertools.chain(unet.parameters(), text_encoder.parameters()) if train_text_encoder
+                else unet.parameters()
+            )
+            accelerator.clip_grad_norm_(params_to_clip, max_grad_norm)
+        optimizer.step()
+        lr_scheduler.step()
+        optimizer.zero_grad()
+      if accelerator.sync_gradients:
+          progress_bar.update(1)
+          global_step += 1
+      logs = {"loss": loss.detach().item(), "lr": lr_scheduler.get_last_lr()[0]}
+      progress_bar.set_postfix(**logs)
+      accelerator.log(logs, step=global_step)
+      if global_step >= max_train_steps:
+          break
 
-  # if accelerator.is_main_process:
-  #   pipeline = StableDiffusionPipeline.from_pretrained(
-  #     pretrained_model_name_or_path,
-  #     unet=accelerator.unwrap_model(unet),
-  #     text_encoder=accelerator.unwrap_model(text_encoder),
-  #     revision=revision
-  #   )
-  #   pipeline.save_pretrained(output_dir)
-  # accelerator.end_training()
+  if accelerator.is_main_process:
+    pipeline = StableDiffusionPipeline.from_pretrained(
+      pretrained_model_name_or_path,
+      unet=accelerator.unwrap_model(unet),
+      text_encoder=accelerator.unwrap_model(text_encoder),
+      revision=revision
+    )
+    pipeline.save_pretrained(output_dir)
+  accelerator.end_training()
 
-  # end = time.time()
-  # print(end - start)
+  end = time.time()
+  print(end - start)
