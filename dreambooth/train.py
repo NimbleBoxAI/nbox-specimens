@@ -24,7 +24,7 @@ def main(
   revision = None,
   gradient_accumulation_steps = 1,
   mixed_precision = 'no',
-  train_text_encoder = True,
+  train_text_encoder = False,
   seed = None,
   learning_rate = 2e-6,
   scale_lr = False,
@@ -78,17 +78,14 @@ def main(
   }
 
   # Step 1: Initialize Accelerator
-  accelerator = Accelerator(
-    gradient_accumulation_steps=gradient_accumulation_steps, mixed_precision=mixed_precision,
-    log_with="tensorboard", logging_dir=logging_dir
-  )
+  accelerator = Accelerator(gradient_accumulation_steps=gradient_accumulation_steps, mixed_precision=mixed_precision)
 
   # Step 2: Currently, it's not possible to do gradient accumulation when training two models with accelerate.accumulate 
   if train_text_encoder and gradient_accumulation_steps > 1 and accelerator.num_processes > 1:
-      raise ValueError(
-        "Gradient accumulation is not supported when training the text encoder in distributed training. "
-        "Please set gradient_accumulation_steps to 1. This feature will be supported in the future."
-      )
+    raise ValueError(
+      "Gradient accumulation is not supported when training the text encoder in distributed training. "
+      "Please set gradient_accumulation_steps to 1. This feature will be supported in the future."
+    )
   
   # Step 3: Set seed
   if seed is not None:
@@ -119,8 +116,7 @@ def main(
     text_encoder.requires_grad_(False)    
   params_to_optimize = (itertools.chain(unet.parameters(), text_encoder.parameters()) if train_text_encoder else unet.parameters())
 
-  optimizer_class = torch.optim.AdamW
-  optimizer = optimizer_class(
+  optimizer = torch.optim.AdamW(
     params_to_optimize, 
     lr=learning_rate,
     betas=(adam_beta1, adam_beta2),
@@ -137,12 +133,11 @@ def main(
     center_crop=center_crop
   )
 
-  collate_fn = partial(collate_fn, tokenizer=tokenizer)
   train_dataloader = torch.utils.data.DataLoader(
     train_dataset,
     batch_size=train_batch_size,
     shuffle=True,
-    collate_fn=collate_fn,
+    collate_fn = partial(collate_fn, tokenizer=tokenizer),
     num_workers=1
   )
 
@@ -208,7 +203,7 @@ def main(
 
   # Step 15: Initializing the trackers and storing our configuration
   if accelerator.is_main_process:
-      accelerator.init_trackers('dreambooth', config=config)
+    accelerator.init_trackers('dreambooth', config=config)
 
   timesteps = 15
   f, axarr = plt.subplots(1,2)
