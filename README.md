@@ -16,12 +16,14 @@ nbx why
 The projects here are used to demonstrate how to run different kinds of workloads and not the content of the operation.
 
 - [**Jobs**] [Sklearn Tests](./sklearn_tests/): Train a simple kmeans model and store the resulting chart in a Relic.
-- [**Jobs + LMAO**] [lmao](./lmao/): Use the upcoming LMAO projects to track, train and store your model giving a full end to end MLOps pipeline.
-- [**Deploy**] [Pose Model](./posemodel/): Deploy a `mediapipe` pose detection model on a kubernetes cluster (w/o YAML 😛)
+- [**Jobs + LMAO**] [lmao](./lmao/): Use NBX-Monitoring projects to track, train and store your model giving a full end to end MLOps pipeline.
+- [**Serving**] [Pose Model](./posemodel/): Deploy a `mediapipe` pose detection model on a kubernetes cluster (w/o YAML 😛)
+- [**Jobs**] [Dreambooth Trainer](./dreambooth/): [**GPU**] Train a Stable Diffusion model on a small dataset.
+- [**Serving**] [FastAPI](./fastapi_serving/): Deploy a FastAPI server on a NBX-Serving
 
 ## 🚧 In Progress
 
-- [**Deploy**] [Stable Diffusion](./stable_diff/): Deploy a Stable Diffusion model
+- [**Serving**] [Stable Diffusion](./stable_diff/): Deploy a Stable Diffusion model
 
 ## Deprecated Examples
 
