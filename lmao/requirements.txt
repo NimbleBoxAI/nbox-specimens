@@ -1,4 +1,4 @@
-nbox[serving]~=0.11c
+nbox[serving]
 numpy==1.22.3
 pandas==1.4.2
 -f https://download.pytorch.org/whl/torch_stable.html
