@@ -1,0 +1,5 @@
+.git/
+.vscode/
+README.md
+__pycache__/
+venv/

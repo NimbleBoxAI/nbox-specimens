@@ -1,4 +1,4 @@
-from nbox import Operator, RelicsNBX, Lmao, operator, Resource
+from nbox import Operator, Relics, Lmao, operator, Resource
 from nbox import __version__
 
 import torch
@@ -75,13 +75,12 @@ def train_model(n: int = 10, lr: float = 0.01, deploy: bool = False):
     model = TorchInferenceModel()
     model.deploy("serving", resource = Resource(
       cpu = "100m",
-      memory = "4Gi",
-      gpu = "nvidia-k80",
-      max_retries = 3,
-      disk_size = "10Gi"
+      memory = "3Gi",
+      max_retries = 2,
+      disk_size = "5Gi"
     ))
 
 
 def get_relic(name):
-  relic = RelicsNBX(name, create = True)
+  relic = Relics(name, create = True)
   return relic

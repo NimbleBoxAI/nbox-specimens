@@ -1,0 +1,8 @@
+nbox[serving]
+transformers
+datasets
+pillow==8.2
+evaluate
+deepspeed
+accelerate
+scikit-learn
