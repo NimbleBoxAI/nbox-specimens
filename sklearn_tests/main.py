@@ -62,7 +62,7 @@ def bench_k_means(kmeans, name, data, labels):
     print(formatter_result.format(*results))
 
 @operator()
-def benchmark(n_init = 5):
+def benchmark(n_init = 5, save_to_relic: bool = False):
     data, labels = load_digits(return_X_y=True)
     (n_samples, n_features), n_digits = data.shape, np.unique(labels).size
 
@@ -132,5 +132,6 @@ def benchmark(n_init = 5):
     plt.savefig("kmeans_digits.png")
 
     # store the chart at a relic location, create if not present
-    relic = RelicsNBX('demo_relic', create = True)
-    relic.put_to('kmeans_digits.png', 'output/kmeans_digits.png')
+    if save_to_relic:
+        relic = RelicsNBX('demo_relic', create = True)
+        relic.put_to('kmeans_digits.png', 'output/kmeans_digits.png')

@@ -2,11 +2,8 @@
 
 In this example we are going to create a batch processing job that will run a benchmark for `sklearn` classification. To deploy this process:
 
-```bash
-nbx jobs upload main:benchmark 'sklearn_test'
+<pre><code>nbx jobs upload main:benchmark --name 'sklearn_test' --trigger
 
-# note the ID generated for `sklearn_test` from CLI
-nbx jobs --id '<id>' trigger
-```
-
-We are continuously working on improving the UX and soon the two commands will be merged into a single more powerful commands.
+# or you can chose to save the results to relic
+nbx jobs upload main:benchmark --name 'sklearn_test' --trigger **--save_to_relic**
+</code></pre>
