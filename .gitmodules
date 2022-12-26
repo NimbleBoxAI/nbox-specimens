@@ -1,0 +1,3 @@
+[submodule "dreambooth-stable-diff"]
+	path = dreambooth-stable-diff
+	url = https://github.com/yashbonde/dreambooth-stable-diff.git

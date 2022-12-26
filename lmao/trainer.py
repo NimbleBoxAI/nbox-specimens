@@ -80,7 +80,20 @@ def train_model(n: int = 10, lr: float = 0.01, deploy: bool = False):
       disk_size = "5Gi"
     ))
 
+  return loss
+
 
 def get_relic(name):
   relic = Relics(name, create = True)
   return relic
+
+@operator()
+def data_prep():
+  pass
+
+
+def main():
+  data = data_prep()
+  loss = train_model(data)
+  # if loss > 0.8:
+
