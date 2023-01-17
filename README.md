@@ -24,6 +24,7 @@ The projects here are used to demonstrate how to run different kinds of workload
 - [**Serving**] [Pose Model](./posemodel/): Deploy a `mediapipe` pose detection model on a kubernetes cluster (w/o YAML 😛)
 - [**Serving**] [FastAPI](./fastapi_serving/): Deploy a FastAPI server on a NBX-Serving
 - [**Jobs**] [DeepSpeed](./deepspeed): [**GPU**] Train a MobileViT using [DeepSpeed](https://www.deepspeed.ai/)
+- [**Jobs + Deploy**] [Compute Fabric](./compute_fabric): Automate the compute via scripts and super power your local developement
 
 ## Deprecated Examples
 
