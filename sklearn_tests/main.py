@@ -63,6 +63,16 @@ def bench_k_means(kmeans, name, data, labels):
 
 @operator()
 def benchmark(n_init = 5, save_to_relic: bool = False):
+    """Benchmark to evaluate the KMeans initialization methods.
+    Parameters
+    ----------
+    n_init : int, default=5
+        Number of time the k-means algorithm will be run with different
+        centroid seeds. The final results will be the best output of n_init
+        consecutive runs in terms of inertia.
+    save_to_relic : bool, default=False
+        Whether to save the benchmark results to Relic.
+    """
     data, labels = load_digits(return_X_y=True)
     (n_samples, n_features), n_digits = data.shape, np.unique(labels).size
 
