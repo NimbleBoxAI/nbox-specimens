@@ -1,5 +1,0 @@
-
-# This is where you list the files that you don't want to upload with your code
-
-__pycache__/
-    

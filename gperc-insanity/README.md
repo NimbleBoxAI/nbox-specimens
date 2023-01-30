@@ -1,1 +1,0 @@
-# General Percievers Example [Deprecated]
