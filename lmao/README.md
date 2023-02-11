@@ -4,9 +4,13 @@
 
 How can you use the NimbleBox LMAO for training, logging and storing of artifacts of any ML model. Here we are going to train a really simple single layer neural network which will log all the metrics, store artifacts in the relevant location and optionally deploy the model as an API endpoint.
 
-- In case you do not have a sample dataset in "nbx_core" relic upload using `python3 upload.py`, this is a one time thing.
+To upload the dataset to Relics:
 
-To upload run your code:
+```bash
+python3 upload.py
+```
+
+To upload run your training with NBX-Experiment Tracking:
 
 ```bash
 nbx lmao upload trainer:train_model <job_id> \

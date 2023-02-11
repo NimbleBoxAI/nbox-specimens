@@ -9,7 +9,7 @@ from sklearn.datasets import load_digits
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
-from nbox import operator, RelicsNBX
+from nbox import operator, Relics
 
 
 def bench_k_means(kmeans, name, data, labels):
@@ -143,5 +143,5 @@ def benchmark(n_init = 5, save_to_relic: bool = False):
 
     # store the chart at a relic location, create if not present
     if save_to_relic:
-        relic = RelicsNBX('demo_relic', create = True)
+        relic = Relics('demo_relic', create = True)
         relic.put_to('kmeans_digits.png', 'output/kmeans_digits.png')

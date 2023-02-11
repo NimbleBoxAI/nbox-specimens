@@ -1,7 +1,8 @@
-from nbox import RelicsNBX
-
+import os
 import numpy as np
 import pandas as pd
+
+from nbox import Relics
 
 if __name__ == "__main__":
   data = np.random.standard_normal((1000, 5))
@@ -15,6 +16,8 @@ if __name__ == "__main__":
     "label": labels
   }).to_csv("data.csv", index = False)
 
-  RelicsNBX("nbx_core", create = True).put_to(
+  Relics("nbx_core", create = True).put_to(
     "data.csv", f"datasets/data_1000_5.csv"
   )
+
+  os.remove("data.csv")
