@@ -1,1 +1,1 @@
-nbox[serving]==0.11.4c2
+nbox[serving]==0.12

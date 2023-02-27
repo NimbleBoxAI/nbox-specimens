@@ -11,16 +11,18 @@ pip install nbox
 nbx why
 ```
 
+> If any of the examples break, please try updating `nbox` to the latest version.
+
 ## 🍇 How to use
 
-- [**End to End**] [The stable-diffusion AI startup](./dreambooth-stable-diff/): [**GPU**] Train a Stable Diffusion model and serve it.
+- [**Projects**] [projects_01](./projects_01/): Use the NimbleBox projects to train a pytorch model, visualise the logs and store the relevant artifacts.
+- [**Projects**] [The stable-diffusion AI startup](./dreambooth-stable-diff/): [**GPU**] Train a Stable Diffusion model and serve it.
 
 ## 🌳 Projects
 
 The projects here are used to demonstrate how to run different kinds of workloads and not the content of the operation.
 
 - [**Jobs**] [Sklearn Tests](./sklearn_tests/): Train a simple kmeans model and store the resulting chart in a Relic.
-- [**Jobs + LMAO**] [lmao](./lmao/): Use NBX-Monitoring projects to track, train and store your model giving a full end to end MLOps pipeline.
 - [**Serving**] [Pose Model](./posemodel/): Deploy a `mediapipe` pose detection model on a kubernetes cluster (w/o YAML 😛)
 - [**Serving**] [FastAPI](./fastapi_serving/): Deploy a FastAPI server on a NBX-Serving
 - [**Jobs**] [DeepSpeed](./deepspeed): [**GPU**] Train a MobileViT using [DeepSpeed](https://www.deepspeed.ai/)

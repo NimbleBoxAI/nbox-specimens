@@ -3,7 +3,9 @@ import os
 # os.environ["NBOX_NO_LOAD_WS"] = "1"
 # os.environ["NBOX_LOG_LEVEL"] = "warning"
 
-from nbox import operator
+from time import sleep
+
+from nbox import operator, Operator
 from nbox.auth import secret
 
 @operator()
@@ -11,15 +13,21 @@ def foo(i = 4):
   return i * i
 
 if __name__ == "__main__":
-  # run locally
-  print("-->> foo(10)", foo(10))
+  from fire import Fire
 
-  # # run a job
-  foo_remote = foo.deploy(os.environ.get("JOB_ID")) # deploy as batch or API
-  # out = foo_remote(10)
-  # print("-->> foo_remote(10)", out)
-  # assert out == 100
+  def main(jid: str, n: int = 5, deploy: bool = False):
+    # run locally
+    print("-->> foo(10)", foo(10))
 
-  # map a workload
-  out = foo_remote.map([1, 2, 3, 4, 5])
-  print("-->> foo_remote.map([1, 2, 3, 4, 5])", out)
+    # get the correct operator
+    if deploy:
+      foo_remote = foo.deploy(group_id = jid) # deploy as batch or API
+    else:
+      foo_remote = Operator.from_job(job_id = jid)
+    
+    # map a workload
+    _list = list(range(n+1))[1:]
+    out = foo_remote.map(_list)
+    print(f"-->> foo_remote.map({_list})", out)
+
+  Fire(main)
