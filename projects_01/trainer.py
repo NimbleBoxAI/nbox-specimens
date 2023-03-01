@@ -1,6 +1,6 @@
 import os
-from nbox import operator
-from nbox.projects import Project
+from tqdm import trange
+from nbox import Project, operator, logger, lo
 
 import torch
 from torch.nn import functional as F
@@ -10,7 +10,12 @@ import pandas as pd
 from model import get_data, get_model
 
 @operator()
-def train_model(n_steps: int = 20, batch_size: int = 64, lr: float = 0.01):
+def train_model(
+  n_steps: int = 75,
+  batch_size: int = 64,
+  lr: float = 0.01,
+  checkpoint_every: int = 25,
+):
   # create a project, if this is running on pod then all the initializations are already done
   # it already knows the project id and experiment id
   p = Project()
@@ -36,7 +41,7 @@ def train_model(n_steps: int = 20, batch_size: int = 64, lr: float = 0.01):
   model = get_model(5, 5)
   adam = torch.optim.Adam(model.parameters(), lr = lr)
   for i, batch in zip(
-    range(n_steps),
+    trange(n_steps),
     get_data(data, labels, batch_size, repeat = True)
   ):
     adam.zero_grad()
@@ -44,18 +49,17 @@ def train_model(n_steps: int = 20, batch_size: int = 64, lr: float = 0.01):
     loss = F.cross_entropy(logits, batch["labels"])
     loss.backward()
     adam.step()
-    print(f"Step {i:03d} loss is {loss.item():.3f}")
-    exp_tracker.log(
-      {
-        "loss": loss.item(),
-        "accuracy": (logits.argmax(dim = 1) == batch["labels"]).float().mean().item(),
-      },
-      step = i,
-    )
+    record = {
+      "loss": loss.item(),
+      "accuracy": (logits.argmax(dim = 1) == batch["labels"]).float().mean().item(),
+    }
+    logger.info(lo("Step", i, ":", **record)) # pretty logging
+    exp_tracker.log(record, step = i)
 
     # save file and automatically sync checkpoints
-    if i % 5 == 0:
+    if checkpoint_every and i % checkpoint_every == 0:
       folder_name = f"model_{i:03d}"
+      logger.info(lo("Saving model at", folder_name, "...")) # pretty logging
       os.makedirs(folder_name, exist_ok = True)
       torch.save(model.state_dict(), f"{folder_name}/model.pt")
       exp_tracker.save_file(folder_name)

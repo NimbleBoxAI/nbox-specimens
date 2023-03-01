@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
 
 app = FastAPI()
 
@@ -12,19 +12,33 @@ ITEMS = {
 
 @app.get("/")
 def read_root():
-  return '''<html>Hello World</html>'''
+  return {
+    "message": "Hello World!"
+  }
 
 @app.get("/items/{item_id}")
-def read_item(item_id: str):
+def read_item(item_id: str, resp: Response):
   if item_id in ITEMS:
-    return f'''<html>Item ID: {item_id} - {ITEMS[item_id]}</html>'''
+    return {
+      "item_id": item_id,
+      "item_name": ITEMS[item_id]
+    }
   else:
-    return f'''<html>Item ID: {item_id} - Not Found</html>'''
+    resp.status_code = 404
+    return {
+      "message": "Item not found"
+    }
 
 @app.post("/update_item_details")
-def update_item_details(item_id: str, item_name: str):
+def update_item_details(item_id: str, item_name: str, resp: Response):
   if item_id in ITEMS:
     ITEMS[item_id] = item_name
-    return f'''<html>Item ID: {item_id} - {ITEMS[item_id]}</html>'''
+    return {
+      "item_id": item_id,
+      "item_name": item_name
+    }
   else:
-    return f'''<html>Item ID: {item_id} - Not Found</html>'''
+    resp.status_code = 404
+    return {
+      "message": "Item not found"
+    }
