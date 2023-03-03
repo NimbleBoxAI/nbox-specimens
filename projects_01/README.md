@@ -29,7 +29,7 @@ All you have to is upload the code and run the experiment to get required result
 <pre><code>nbx projects --id '< your project id >' - run \
   trainer:train_model \
   <b>--resource_disk_size '10Gi'</b> \
-  <b>--n 23</b>
+  <b>--n_steps 56</b>
 </code></pre>
 
 ## 🍍 Step 4: View results
