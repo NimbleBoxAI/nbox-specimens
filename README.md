@@ -13,12 +13,13 @@ nbx why
 
 > If any of the examples break, please try updating `nbox` to the latest version.
 
-## 🍇 How to use
+## 🍇 How to use NBX-Projects
 
-- [**Projects**] [projects_01](./projects_01/): Use the NimbleBox projects to train a pytorch model, visualise the logs and store the relevant artifacts.
-- [**Projects**] [The stable-diffusion AI startup](./dreambooth-stable-diff/): [**GPU**] Train a Stable Diffusion model and serve it.
+- [projects_01](./projects_01/): Use the NimbleBox projects to train a pytorch model, visualise the logs and store the relevant artifacts.
+- [The stable-diffusion AI startup](./dreambooth-stable-diff/): [**GPU**] Train a Stable Diffusion model and serve it.
+- [Mastering Blackjack with Q-learning](./blackjack/): Train a Q-learning agent to play Blackjack.
 
-## 🌳 Projects
+## 🌳 Service-Specific
 
 The projects here are used to demonstrate how to run different kinds of workloads and not the content of the operation.
 
@@ -26,4 +27,9 @@ The projects here are used to demonstrate how to run different kinds of workload
 - [**Serving**] [Pose Model](./posemodel/): Deploy a `mediapipe` pose detection model on a kubernetes cluster (w/o YAML 😛)
 - [**Serving**] [FastAPI](./fastapi_serving/): Deploy a FastAPI server on a NBX-Serving
 - [**Jobs**] [DeepSpeed](./deepspeed): [**GPU**] Train a MobileViT using [DeepSpeed](https://www.deepspeed.ai/)
-- [**Jobs + Deploy**] [Compute Fabric](./compute_fabric): Automate the compute via scripts and super power your local developement
+
+## 🌌 More ambitious projects
+
+These are projects are for the ambitious ones who want to try out more advanced features of NBX.
+
+- [Compute Fabric](./compute_fabric): Attach powerful cloud compute and super power your local developement

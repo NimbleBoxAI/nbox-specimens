@@ -16,7 +16,7 @@ def get_model(
 ):
   """Build a simple MLP model."""
   layers = []
-  for i in range(n_layers):
+  for i in range(n_layers - 1):
     layers.append(Linear(in_dim, h_dim))
     layers.append(LayerNorm(h_dim))
     in_dim = h_dim
@@ -34,7 +34,7 @@ def get_model(
 def create_data(shape = (1000, 5)):
   n_classes = shape[-1]
   data = torch.cat(
-    [torch.normal(i, 1, (shape[0]//n_classes, shape[1])) for i in range(n_classes)],
+    [torch.normal(i/n_classes, i/n_classes, (shape[0]//n_classes, shape[1])) for i in range(n_classes)],
     dim = 0
   ).tolist()
   labels = torch.cat(

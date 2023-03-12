@@ -1,4 +1,5 @@
 import os
+from time import sleep
 from tqdm import trange
 from nbox import Project, operator, logger, lo
 
@@ -6,24 +7,31 @@ import torch
 from torch.nn import functional as F
 import numpy as np
 import pandas as pd
+from sklearn.metrics import cohen_kappa_score, matthews_corrcoef
 
 from model import get_data, get_model
 
 @operator()
 def train_model(
-  n_steps: int = 75,
+  n_steps: int = 5,
   batch_size: int = 64,
   lr: float = 0.01,
-  checkpoint_every: int = 25,
+  checkpoint_every: int = 0,
 ):
   # create a project, if this is running on pod then all the initializations are already done
   # it already knows the project id and experiment id
-  p = Project()
+  p = Project("393e4bf1")
   relic = p.get_relic()
-  exp_tracker = p.get_exp_tracker()
+  exp_tracker = p.get_exp_tracker(
+    metadata = {
+      "lr": 0.4,
+    }
+  )
 
   # copy the data from the relic and structure to tensors
-  relic.get_from("data.csv", f"datasets/data_1000_5.csv")
+  if not os.path.exists("data.csv"):
+    relic.get_from("data.csv", f"datasets/data_1000_5.csv")
+
   df = pd.read_csv("data.csv")
   data = np.concatenate([
     df["a"].values.reshape(-1, 1),
@@ -49,11 +57,17 @@ def train_model(
     loss = F.cross_entropy(logits, batch["labels"])
     loss.backward()
     adam.step()
+    y_pred = logits.argmax(dim = 1)
+    y_true = batch["labels"]
+    acc = (y_pred == y_true).float().mean().item()
     record = {
       "loss": loss.item(),
-      "accuracy": (logits.argmax(dim = 1) == batch["labels"]).float().mean().item(),
+      "accuracy": acc,
+      "kappa": float(cohen_kappa_score(y_pred, y_true)),
+      "mcc": float(matthews_corrcoef(y_pred, y_true)),
+      "step": i,
     }
-    logger.info(lo("Step", i, ":", **record)) # pretty logging
+    # logger.info(lo("Step", i, ":", **record)) # pretty logging
     exp_tracker.log(record, step = i)
 
     # save file and automatically sync checkpoints
@@ -64,5 +78,10 @@ def train_model(
       torch.save(model.state_dict(), f"{folder_name}/model.pt")
       exp_tracker.save_file(folder_name)
 
+    sleep(1) # simulate training time
+
   # end the run
   exp_tracker.end()
+
+if __name__ == "__main__":
+  train_model()

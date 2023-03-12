@@ -1,5 +1,6 @@
-nbox[serving]==0.12.2c11
+nbox[serving]
 numpy==1.22.3
 pandas==1.4.2
 -f https://download.pytorch.org/whl/torch_stable.html
 torch==1.13.0+cpu
+scikit-learn==1.1.3
