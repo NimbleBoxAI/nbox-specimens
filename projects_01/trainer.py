@@ -20,7 +20,7 @@ def train_model(
 ):
   # create a project, if this is running on pod then all the initializations are already done
   # it already knows the project id and experiment id
-  p = Project("393e4bf1")
+  p = Project()
   relic = p.get_relic()
   exp_tracker = p.get_exp_tracker(
     metadata = {
