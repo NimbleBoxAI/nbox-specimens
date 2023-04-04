@@ -1,4 +1,6 @@
 .git/
 .vscode/
 __pycache__/
+data.csv
+model.pt
 venv/

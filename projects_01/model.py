@@ -13,7 +13,7 @@ def get_model(
   out_dim: int,
   h_dim: int = 64,
   n_layers: int = 2,
-):
+) -> torch.nn.Module:
   """Build a simple MLP model."""
   layers = []
   for i in range(n_layers - 1):

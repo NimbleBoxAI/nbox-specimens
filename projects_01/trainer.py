@@ -10,22 +10,23 @@ import pandas as pd
 from sklearn.metrics import cohen_kappa_score, matthews_corrcoef
 
 from model import get_data, get_model
+from const import project_id
 
 @operator()
 def train_model(
-  n_steps: int = 5,
+  n_steps: int = 50,
   batch_size: int = 64,
   lr: float = 0.01,
-  checkpoint_every: int = 0,
+  checkpoint_every: int = 25,
 ):
   # create a project, if this is running on pod then all the initializations are already done
   # it already knows the project id and experiment id
-  p = Project()
+  p = Project(project_id)
   relic = p.get_relic()
   exp_tracker = p.get_exp_tracker(
     metadata = {
-      "lr": 0.4,
-    }
+      "lr": lr
+    }  
   )
 
   # copy the data from the relic and structure to tensors
@@ -71,7 +72,7 @@ def train_model(
     exp_tracker.log(record, step = i)
 
     # save file and automatically sync checkpoints
-    if checkpoint_every and i % checkpoint_every == 0:
+    if checkpoint_every and (i+1) % checkpoint_every == 0:
       folder_name = f"model_{i:03d}"
       logger.info(lo("Saving model at", folder_name, "...")) # pretty logging
       os.makedirs(folder_name, exist_ok = True)

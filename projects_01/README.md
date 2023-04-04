@@ -26,9 +26,9 @@ python3 upload.py
 
 All you have to is upload the code and run the experiment to get required results.
 
-<pre><code>nbx projects --id '< your project id >' - run \
-  trainer:train_model \
-  <b>--resource_disk_size '10Gi'</b> \
+<pre><code>nbx projects --id '< your project id >' - \
+  <b>run trainer:train_model</b> \
+  --resource_disk_size '10Gi' \
   <b>--n_steps 56</b>
 </code></pre>
 
@@ -37,3 +37,15 @@ All you have to is upload the code and run the experiment to get required result
 Once the run is complete:
 - it will have logged all the results to charts and tables
 - all the relevant artifacts will be saved on your cloud buckets
+
+It would look something like:
+
+<img src="https://d2e931syjhr5o9.cloudfront.net/nbox/blackjack-project.png">
+
+## 🍓 Step 5: Deploy the model
+
+<pre><code>nbx serve upload server:app --id 'serving' - \
+  <b>serve server:app</b> \
+  --resource_disk_size '10Gi' \
+  --serving_type "fastapi_v2"
+</code></pre>
