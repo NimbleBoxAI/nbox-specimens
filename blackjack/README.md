@@ -1,16 +1,16 @@
-# Training a Q-Learning agent to play Blackjack
+# Training a Q-Learning Agent to Play Blackjack
 
-Farama-Foundation gymnasium documentation: [link](https://gymnasium.farama.org/tutorials/training_agents/blackjack_tutorial/)
+Welcome to the Q-Learning Agent training tutorial for Blackjack! To get started, please refer to the Farama-Foundation Gymnasium documentation at this [link](https://gymnasium.farama.org/tutorials/training_agents/blackjack_tutorial/).
 
-## Steps
+Steps
+- Create a new project on NimbleBox. Each project comes with a set of resources to simplify the training and deployment of your agents.
 
-1. Create a new Project on [NimbleBox](https://app.nimblebox.ai/), each project contains a ???? of ???? to make it easy to train and deploy your agents.
-2. Note the project ID and run the following command to train your agent:
-
+- Make a note of the project ID and run the following command to train your agent:
 ```bash
 nbx projects --id '<project-id>' - run script:main
 ```
 
-This is how training with a bunch of different parameters would look like:
+- Here's an example of how the training with various parameters would look like:
+  <img src="https://d2e931syjhr5o9.cloudfront.net/nbox/blackjack-project.png">
 
-<img src="https://d2e931syjhr5o9.cloudfront.net/nbox/blackjack-project.png">
+Thank you for choosing NimbleBox for your machine learning needs!

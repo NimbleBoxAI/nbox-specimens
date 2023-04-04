@@ -1,47 +1,44 @@
 # Mediapipe Model
 
-In this example we are going to deploy a (MediaPipe)[https://mediapipe.dev/] model for landmark detection. There are many ways to call a deployed a CV model:
-- directly transfering uint8 array: as you would think this creates the heaviest message, this is the worst. Do it just to realise how bad it is.
-- transferring the bytes of the image: this is an industry standard approach where the client would send in a base64 encoded image bytes and the server would reconstruct the image, this is a good case when your server is in an unsafe environment
-- sending in a URL and server would fetch it: this is good when your server is in a safe environment and you know what are the actual contents of the URL
+> For a simpler example, see the [fastAPI](../fastapi_serving/) example.
 
-**Note on opencv**: `mediapipe` has a dependency on `opencv` and installing `opencv` is a bit tricky since it depends directly on the system packages. So we the trick the system by installing it right from inside our script even before `mediapipe` is imported, this may seem like a hack but it is **99% solution that works 99% of times**.
+This is a guide on how to deploy a MediaPipe model for landmark detection using NimbleBox Deploy. The guide explains the different ways to call a deployed computer vision (CV) model and the considerations when deploying OpenCV as a dependency.
 
-## Serve
-
-The class is defined in `model.py` file and to serve this model run:
-```
-nbx serve upload model:MediaPipeModel 'mediapipe_model'
-```
-
-The way `nbox.Operator` works is that it would take all the functions that you have in a class and create an endpoint against it, in this case:
-
-- `predict` would be served at `method_predict_rest/`, this takes in a raw array and returns predictions
-- `predict_b64` would be served at `method_predict_b64_rest/`, this takes in a base64 encoded image
-- `predict_url` would be served at `method_predict_url_rest/`, this takes in a URL
-
-The developer is free from writing API endpoints, managing the complexity of on-wire protocols, they simply write functions that can take in any input (for REST it needs to be JSON serialisable).
-
-## Use
-
-The model is now deployed on an API endpoint that looks like this: `https://api.nimblebox.ai/cdlmonrl/`, you can go to the Deploy → 'mediapipe_model' → Settings and get your access key, it would look like this: `nbxdeploy_AZqcVWuVm0pC4k567EaUjOCOulZiQ3YdLEQJNnrR`. The file `predict.py` contains more detailed tests for the API endpoint. Here's from my run:
+The main class is defined in the model.py file and to serve this model, you can run the following command:
 
 ```
-Time taken for array (avg. 10 calls): 9.3824s
-Time taken for b64 (avg. 20 calls): 1.2814s
-Time taken for url (avg. 50 calls): 0.4145s
+nbx serve upload model:MediaPipeModel 'your_id_goes_here'
 ```
 
-## Advanced
+The `nbox.Operator` works by taking all the functions that are in a class and creating an endpoint for each of them. In this case, the `predict` function is served at `method_predict_rest/`, which takes a raw array and returns predictions. The `predict_b64` function is served at `method_predict_b64_rest/`, which takes a base64-encoded image, and the `predict_url` function is served at `method_predict_url_rest/`, which takes a URL.
 
-The `nbox.Operator` is designed to wrap any arbitrary python class or function to become part of a distributed compute fabric. When you have deployed a model on NBX-Deploy you can connect directly via an `Operator` with `.from_serving` classmethod like:
+The `nbox.Operator` is designed to wrap any arbitrary Python class or function to become part of a distributed [compute fabric](../compute_fabric/). Once the model is deployed on NimbleBox Deploy, you can connect directly via an `Operator` with the `.from_serving` class method as follows:
 
 ```
 mediapipe = Operator.from_serving("https://api.nimblebox.ai/cdlmonrl/", "<token>")
 out = mediapipe.predict_url(url)
 ```
 
-To test it run file:
+To test it, run the advanced.py file.
+
+To call a deployed CV model, there are three ways:
+
+- Directly transferring a uint8 array: This creates the heaviest message and is the worst way to call a deployed CV model.
+- Transferring the bytes of the image: This is an industry-standard approach where the client sends a base64-encoded image byte, and the server reconstructs the image. This is a good approach when the server is in an unsafe environment.
+- Sending a URL, and the server would fetch it: This approach is good when the server is in a safe environment, and the contents of the URL are known.
+
+The `mediapipe` dependency has a dependency on `opencv`, and installing `opencv` is a bit tricky because it depends directly on the system packages. To solve this, the system can be tricked by installing it inside the script even before `mediapipe` is imported. This approach may seem like a hack, but it is a 99% solution that works 99% of the time.
+
+To deploy the model, run the following command:
+
+```bash
+nbx serve upload model:MediaPipeModel 'mediapipe_model'
 ```
-python3 advanced.py
+
+To use the model, go to the "Deploy" → "mediapipe_model" → "Settings" and get the access key. The API endpoint looks like this: `https://api.nimblebox.ai/dfsdffe/` and the access key would look something like `nbxdeploy_AZqcVWuVm0pC4k567EaUjOCOulZiQ3YdLEQJNnrR`. The `predict.py` file contains more detailed tests for the API endpoint, including the time taken for array, b64, and URL calls. The file `predict.py` contains more detailed tests for the API endpoint. Here's from my run:
+
+```
+Time taken for array (avg. 10 calls): 9.3824s
+Time taken for b64 (avg. 20 calls): 1.2814s
+Time taken for url (avg. 50 calls): 0.4145s
 ```

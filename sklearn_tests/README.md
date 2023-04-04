@@ -1,9 +1,19 @@
 # 'sklearn_tests' on NimbleBox
 
-In this example we are going to create a batch processing job that will run a benchmark for `sklearn` classification. To deploy this process:
+In this example, we will demonstrate how to create a batch processing job to run a benchmark for sklearn classification.
 
-<pre><code>nbx jobs upload main:benchmark --name 'sklearn_test' --trigger
+- To deploy this process, please follow the steps below:
 
-# or you can chose to save the results to relic
-nbx jobs upload main:benchmark --name 'sklearn_test' --trigger **--save_to_relic**
-</code></pre>
+Run the following command to upload the job:
+
+```bash
+nbx jobs upload main:benchmark --name 'sklearn_test' --trigger
+```
+
+- Alternatively, if you prefer to save the results to Relic, run the following command:
+
+```bash
+nbx jobs upload main:benchmark --name 'sklearn_test' --trigger --save_to_relic
+```
+
+Thank you for choosing NimbleBox for your machine learning needs!
