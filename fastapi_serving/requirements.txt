@@ -1,3 +1,3 @@
-nbox[serving]
+nbox[serving]>=0.12.4
 
 # fastapi and uvicorn are already paret of nbox[serving]

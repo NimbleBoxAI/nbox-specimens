@@ -10,12 +10,6 @@ ITEMS = {
   "fastapi": "FastAPI is a server",
 }
 
-@app.get("/")
-def read_root():
-  return {
-    "message": "Hello World!"
-  }
-
 @app.get("/items/{item_id}")
 def read_item(item_id: str, resp: Response):
   if item_id in ITEMS:

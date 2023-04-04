@@ -1,17 +1,11 @@
 # Deploy any FastAPI app
 
-With NimbleBox Serving you can run any FastAPI app without changing a single line of code. `server.py` contains a server to list and update items.
+With NimbleBox Serving you can run any FastAPI app without changing a single line of code. `server.py` contains a server to list and update items. Note that `serving_type = "fastapi_v2"` will override `/` and `/metadata` endpoints.
 
-<pre><code>nbx serve upload server:app --id '<serving_id>' <b>--serving_type="fastapi"</b></code></pre>
-
-## APIs
-
-All your APIs will be available with a simple `/x/` suffix. For example, the `items` API will be available at `/x/items/`.
-
-<pre><code>https://api.nimblebox.ai/ago7kguk/j0wnnjmx/<b>x/items</b></code></pre>
+<pre><code>nbx serve upload server:app --id '<serving_id>' <b>--serving_type="fastapi_v2"</b></code></pre>
 
 You can make a simple cURL requests like this:
 
 ```bash
-curl https://api.nimblebox.ai/agj792uk/j0wnnjmx/x/items/foo -H 'NBX-KEY: <your-key>'
+curl -k -H 'NBX-KEY: <your-key>' https://api.nimblebox.ai/<deployment_id>/items/foo
 ```
