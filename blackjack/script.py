@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 from collections import defaultdict
+from cloudpickle import pickle
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -228,3 +229,8 @@ def main(
   fig2 = create_plots(value_grid, policy_grid, title="Without usable ace")
   fig2.savefig('./no_usable_ace.png')
   tracker.save_file('./no_usable_ace.png')
+
+  # save the agent
+  with open('./agent.pkl', 'wb') as f:
+    pickle.dump(agent, f)
+  tracker.save_file('./agent.pkl')
