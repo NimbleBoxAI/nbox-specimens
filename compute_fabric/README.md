@@ -3,7 +3,7 @@
 Compute Fabric is a new style of running compute workloads on NimbleBox by automating scripts.
 
 ```bash
-JOB_ID="<your-job-id>" python3 examples/remote_map.py
+python3 examples/remote_map.py --jid "<your-job-id>"
 ```
 
 - Easy-to-use interface for uploading and running scripts
